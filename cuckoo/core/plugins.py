@@ -602,7 +602,7 @@ class RunSignatures(object):
                 {"score": m["score"], "name": m["name"], "description": m["description"]}
 
             )
-        matched_info_list.sort(key=lambda key: key["score"])
+        matched_info_list.sort(key=lambda key: key["score"], reverse=True)
         sig_info_list = []
         for m in matched_info_list:
             sig_info_list.append(
