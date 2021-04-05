@@ -827,6 +827,7 @@ class Signature(object):
     name = ""
     description = ""
     severity = 1
+    score = 0
     order = 1
     categories = []
     families = []
@@ -1339,6 +1340,7 @@ class Signature(object):
                     ttp=self.extend_ttp(),
                     description=self.description,
                     severity=self.severity,
+                    score=self.score,
                     families=self.families,
                     references=self.references,
                     marks=self.marks[:self.markcount],

@@ -567,6 +567,7 @@ class RunSignatures(object):
             self.call_signature(sig, sig.on_complete)
 
         score, configs = 0, []
+        my_score = 0
         for signature in self.signatures:
             if not signature.matched:
                 continue
@@ -576,10 +577,12 @@ class RunSignatures(object):
                     "action": "signature.match", "status": "success",
                     "signature": signature.name,
                     "severity": signature.severity,
+                    "score": signature.score,
                 }
             )
             self.matched.append(signature.results())
             score += signature.severity
+            my_score += signature.score
 
             for mark in signature.marks:
                 if mark["type"] == "config":
@@ -591,6 +594,21 @@ class RunSignatures(object):
         self.results["signatures"] = self.matched
         if "info" in self.results:
             self.results["info"]["score"] = score / 5.0
+            self.results["info"]["my_score"] = my_score
+
+        matched_info_list = []
+        for m in self.matched:
+            matched_info_list.append(
+                {"score": m["score"], "name": m["name"], "description": m["description"]}
+
+            )
+        matched_info_list.sort(key=lambda key: key["score"])
+        sig_info_list = []
+        for m in matched_info_list:
+            sig_info_list.append(
+                "{}:{}:{}".format(m["score"], m["name"], m["description"])
+            )
+        self.results["signatures_info"] = sig_info_list
 
         # If malware configuration has been extracted, simplify its
         # accessibility in the analysis report.
