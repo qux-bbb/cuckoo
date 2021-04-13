@@ -218,6 +218,7 @@ do_setup(
         "unicorn==1.0.1",
         "wakeonlan==0.2.2",
         "yara-python==3.6.3",
+        "Werkzeug==0.16.1",  # https://stackoverflow.com/questions/60992849/attributeerror-request-object-has-no-attribute-is-xhr
     ],
     extras_require={
         ":sys_platform == 'win32'": [
